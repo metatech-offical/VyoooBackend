@@ -908,7 +908,7 @@
                                                     type="button" class="btn btn-secondary p-0 tooltip-icon"
                                                     data-bs-trigger="focus" data-bs-toggle="popover"
                                                     data-bs-title="How to make a Scheme"
-                                                    data-bs-content="Use your app name in lowercase with no spaces or special characters (e.g., shortzz, cinereel, myapp2025).">
+                                                    data-bs-content="Use your app name in lowercase with no spaces or special characters (e.g., vyooo, myapp2025).">
                                                     ?
                                                 </button></label>
                                             <input type="text" class="form-control" id="uri_scheme" name="uri_scheme"

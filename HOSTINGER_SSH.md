@@ -88,7 +88,7 @@ If `ln -s` is not allowed, create `public/storage` as a normal folder and copy t
 cp -r ../storage/app/public public/storage
 ```
 
-If you imported **shortzz_database.sql** instead of migrations, you can skip `migrate`.
+If you imported **vyooo_database.sql** (or shortzz_database.sql) instead of migrations, you can skip `migrate`.
 
 ---
 
@@ -163,7 +163,7 @@ Copy this block into `.env` on the server and replace the placeholders.
 **Required – you must set these:**
 
 ```env
-APP_NAME=Shortzz
+APP_NAME=Vyooo
 APP_ENV=production
 APP_KEY=PASTE_OUTPUT_OF_php_artisan_key:generate_--show
 APP_DEBUG=false
@@ -179,7 +179,7 @@ DB_PASSWORD=your_cpanel_db_password
 RC_PROJECT_ID=your_revenuecat_project_id
 RC_KIT_API_KEY=your_revenuecat_secret_api_key
 
-NOTIFICATION_TOPIC=shortzz
+NOTIFICATION_TOPIC=vyooo
 
 FILES_STORAGE_LOCATION=PUBLIC
 

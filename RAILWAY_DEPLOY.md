@@ -1,4 +1,4 @@
-# Deploy Shortzz Backend on Railway
+# Deploy Vyooo Backend on Railway
 
 Use this checklist to deploy and run the project successfully on Railway.
 
@@ -20,7 +20,7 @@ In your **service** (the app, not the database) → **Variables** → **Raw Edit
 
 | Variable | Example / Note |
 |----------|----------------|
-| `APP_NAME` | `Shortzz` (no spaces) |
+| `APP_NAME` | `Vyooo` (no spaces) |
 | `APP_ENV` | `production` |
 | `APP_DEBUG` | `false` |
 | `APP_KEY` | Run `php artisan key:generate --show` locally and paste the key |
@@ -53,7 +53,7 @@ Railway MySQL often gives a URL. Use either:
 
 | Variable | Note |
 |----------|------|
-| `NOTIFICATION_TOPIC` | e.g. `shortzz` |
+| `NOTIFICATION_TOPIC` | e.g. `vyooo` |
 | `RC_PROJECT_ID` | RevenueCat project ID |
 | `RC_KIT_API_KEY` | RevenueCat secret API key |
 
@@ -160,7 +160,7 @@ Until this file (or env) is set, the **dashboard** may show an error; the **API*
 
 ## 8. Optional: Cron jobs
 
-If your app uses cron (e.g. from the Shortzz doc):
+If your app uses cron (e.g. from the Vyooo doc):
 
 - Use Railway **Cron** (or a separate service with a cron process) to hit:
   - `https://YOUR_APP_URL/api/cron/reGeneratePlaceApiToken`

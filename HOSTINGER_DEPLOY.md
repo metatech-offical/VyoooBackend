@@ -1,6 +1,6 @@
-# Deploy Shortzz Backend on Hostinger (cPanel)
+# Deploy Vyooo Backend on Hostinger (cPanel)
 
-Follow these steps and the official Shortzz documentation for a successful deploy.
+Follow these steps for a successful deploy.
 
 ---
 
@@ -36,11 +36,11 @@ Laravel must be served from the **`public`** folder so that:
 
 - In cPanel: **Domains** → your domain → **Document Root** (or **Root Directory**).
 - Set it to the folder that **contains** `index.php` and `storage` symlink, i.e. the **`public`** folder of your project.  
-  Example: if the project is at `home/username/shortzz_backend`, set document root to `shortzz_backend/public`.
+  Example: if the project is at `home/username/vyooo_backend`, set document root to `vyooo_backend/public`.
 
 **Option B – Document root is the project root**
 
-- If you cannot change the document root and it points to the project root (e.g. `shortzz_backend`), the existing **root `.htaccess`** will forward requests to `public/` and `server.php`. Ensure the root `.htaccess` is present (it is in the repo).
+- If you cannot change the document root and it points to the project root (e.g. `vyooo_backend`), the existing **root `.htaccess`** will forward requests to `public/` and `server.php`. Ensure the root `.htaccess` is present (it is in the repo).
 
 ---
 
@@ -48,12 +48,12 @@ Laravel must be served from the **`public`** folder so that:
 
 1. **MySQL Database**
    - cPanel → **MySQL® Databases**.
-   - Create a database (e.g. `username_shortzz`).
+   - Create a database (e.g. `username_vyooo`).
    - Create a user and password; add the user to the database with **ALL PRIVILEGES**.
 
 2. **Import schema**
    - cPanel → **phpMyAdmin** → select your database.
-   - **Import** → choose `shortzz_database.sql` (from the Shortzz package) and run import.  
+   - **Import** → choose `vyooo_database.sql` (or your export) and run import.  
    - If you don’t have that file, run migrations on the server:  
      `php artisan migrate --force` (via SSH or cPanel Terminal).
 
@@ -62,7 +62,7 @@ Laravel must be served from the **`public`** folder so that:
    - Set at least:
 
 ```env
-APP_NAME=Shortzz
+APP_NAME=Vyooo
 APP_ENV=production
 APP_DEBUG=false
 APP_KEY=base64:YOUR_KEY_FROM_artisan_key:generate
@@ -84,7 +84,7 @@ SESSION_SECURE_COOKIE=true
 RC_PROJECT_ID=your_rc_project_id
 RC_KIT_API_KEY=your_rc_kit_api_key
 
-NOTIFICATION_TOPIC=shortzz
+NOTIFICATION_TOPIC=vyooo
 ```
 
 - Replace `yourdomain.com`, database name/user/password, and RevenueCat values.  
@@ -123,7 +123,7 @@ php artisan storage:link
 ## 7. Cron jobs (cPanel)
 
 - cPanel → **Cron Jobs**.
-- Add the commands from the Shortzz doc (e.g. run every hour / daily):
+- Add the commands from the Vyooo doc (e.g. run every hour / daily):
 
 ```text
 # Regenerate Place API token – twice per hour
@@ -143,7 +143,7 @@ php artisan storage:link
 
 ---
 
-## 8. Optional: server limits (Shortzz doc)
+## 8. Optional: server limits (Vyooo doc)
 
 If the doc recommends it, in cPanel or `php.ini`:
 
