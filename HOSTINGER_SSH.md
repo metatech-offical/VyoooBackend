@@ -132,15 +132,12 @@ If login returns 500 and the log says **DecryptException** or **The MAC is inval
 2. **Reset the admin password on the server**  
    So it is encrypted with the current APP_KEY:
    - Use the app’s **Forgot password** flow (it needs DB username/password from `.env`), or  
-   - Set a new password via tinker:
+   - Use the Artisan command (works when tinker cannot run, e.g. shared hosting):
      ```bash
-     php artisan tinker
-     >>> $a = \App\Models\Admin::where('admin_username','admin')->first();
-     >>> $a->admin_password = \Illuminate\Support\Facades\Crypt::encrypt('YourNewPassword');
-     >>> $a->save();
-     >>> exit
+     php artisan admin:set-password YourNewPassword
      ```
-   Then log in with `admin` / `YourNewPassword`.
+     Then log in with `admin` / `YourNewPassword`.  
+     For another user: `php artisan admin:set-password YourNewPassword --user=username`.
 
 ---
 
