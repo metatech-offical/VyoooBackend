@@ -5,7 +5,6 @@ use App\Models\Admin;
 use App\Models\GlobalFunction;
 use App\Models\GlobalSettings;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
@@ -48,7 +47,8 @@ class LoginController extends Controller
         if ($setting) {
             Session::put('app_name', $setting->app_name);
         }
-        Artisan::call('storage:link');
+        // Storage link should be run once at deploy (e.g. php artisan storage:link via SSH).
+        // Do not run here: symlink() is often disabled on shared hosting and causes 500.
         if (Session::get('username') && Session::get('userpassword') && Session::get('user_type')) {
             $adminUser = Admin::where('admin_username', Session::get('username'))->first();
             if (decrypt($adminUser->admin_password) == Session::get('userpassword')) {
