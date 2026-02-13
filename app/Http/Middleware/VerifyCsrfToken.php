@@ -12,6 +12,7 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        //
+        // Cross-origin login from crm.vyooo.com cannot send a Laravel CSRF token.
+        'loginForm',
     ];
 }
