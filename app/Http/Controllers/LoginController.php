@@ -1,15 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Admin;
 use App\Models\GlobalFunction;
 use App\Models\GlobalSettings;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
-
-use function Psy\debug;
 
 class LoginController extends Controller
 {
@@ -51,8 +51,14 @@ class LoginController extends Controller
         // Do not run here: symlink() is often disabled on shared hosting and causes 500.
         if (Session::get('username') && Session::get('userpassword') && Session::get('user_type')) {
             $adminUser = Admin::where('admin_username', Session::get('username'))->first();
-            if (decrypt($adminUser->admin_password) == Session::get('userpassword')) {
-                return redirect('dashboard');
+            if ($adminUser) {
+                try {
+                    if (Crypt::decrypt($adminUser->admin_password) === Session::get('userpassword')) {
+                        return redirect('dashboard');
+                    }
+                } catch (DecryptException $e) {
+                    // APP_KEY changed or data encrypted with different key
+                }
             }
         }
         return view('login');
@@ -62,7 +68,20 @@ class LoginController extends Controller
     {
         $data = Admin::where('admin_username', $request->username)->first();
 
-        if ($data && $request->username == $data['admin_username'] && $request->password == decrypt($data->admin_password)) {
+        $passwordValid = false;
+        if ($data && $request->username === $data->admin_username) {
+            try {
+                $passwordValid = $request->password === Crypt::decrypt($data->admin_password);
+            } catch (DecryptException $e) {
+                Log::warning('Login decrypt failed (APP_KEY mismatch?): ' . $e->getMessage());
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Cannot verify password. Server APP_KEY may not match the key used when the password was set. Reset the admin password on this server or set APP_KEY to match.',
+                ]);
+            }
+        }
+
+        if ($data && $passwordValid) {
             $request->session()->put('username', $data['admin_username']);
             $request->session()->put('userpassword', $request->password);
             // Full admin = 1, Tester = 0 (normalize "admin" string to 1 for compatibility)

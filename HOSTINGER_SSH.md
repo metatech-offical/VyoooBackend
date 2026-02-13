@@ -119,7 +119,32 @@ nano googleCredentials.json
 
 ---
 
-## 9. Cron (optional)
+## 9. Login 500 / "The MAC is invalid"
+
+If login returns 500 and the log says **DecryptException** or **The MAC is invalid**, the admin password in the database was encrypted with a different **APP_KEY** than the one in your server `.env`.
+
+**Fix (pick one):**
+
+1. **Use the same APP_KEY**  
+   If you seeded the DB on your local machine, copy the same `APP_KEY` from your local `.env` into the server `.env`, then clear config cache:  
+   `php artisan config:clear && php artisan config:cache`
+
+2. **Reset the admin password on the server**  
+   So it is encrypted with the current APP_KEY:
+   - Use the app’s **Forgot password** flow (it needs DB username/password from `.env`), or  
+   - Set a new password via tinker:
+     ```bash
+     php artisan tinker
+     >>> $a = \App\Models\Admin::where('admin_username','admin')->first();
+     >>> $a->admin_password = \Illuminate\Support\Facades\Crypt::encrypt('YourNewPassword');
+     >>> $a->save();
+     >>> exit
+     ```
+   Then log in with `admin` / `YourNewPassword`.
+
+---
+
+## 10. Cron (optional)
 
 Add crons in Hostinger (Cron Jobs) or via `crontab -e`:
 
